@@ -15,18 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for Search
+ * English language pack for Search
  *
- * @package    qbank_search
+ * @package    qbank_bulksearch
+ * @category   string
  * @copyright  2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component    = 'qbank_bulksearch';
-$plugin->release      = '1.0';
-$plugin->version      = 2024111400;
-$plugin->requires     = 2024100700.04;
-$plugin->supported    = [403, 405];
-$plugin->maturity     = MATURITY_STABLE;
+$string['pluginname'] = 'Search';
+$string['searchaction'] = 'Search action';

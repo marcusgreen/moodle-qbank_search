@@ -15,14 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * English language pack for Search
+ * TODO describe file search
  *
- * @package    qbank_search
- * @category   string
- * @copyright  2024 Marcus Green
+ * @package    qbank_bulksearch
+ * @copyright  2024 2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require('../../../config.php');
 
-$string['pluginname'] = 'Search';
+require_login();
+
+$url = new moodle_url('/question/bank/bulksearch/search.php', []);
+$PAGE->set_url($url);
+$PAGE->set_context(context_system::instance());
+
+$PAGE->set_heading($SITE->fullname);
+echo $OUTPUT->header();
+echo $OUTPUT->footer();

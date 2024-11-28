@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qbank_search;
+namespace qbank_bulksearch;
 
 /**
  * Plugin entrypoint for columns.
@@ -25,4 +25,17 @@ namespace qbank_search;
  */
 class plugin_feature extends \core_question\local\bank\plugin_features_base {
 
+    /**
+     * Get the bulk actions for this plugin.
+     * from the bluk_tag_action.php file
+     *
+     * @return array An array of bulk actions.
+     */
+    public function get_bulk_actions(): array {
+        xdebug_break();
+        return [
+            new bulk_search_action(),
+        ];
+    }
 }
+

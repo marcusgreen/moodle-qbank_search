@@ -38,7 +38,6 @@ class bulk_search_action extends \core_question\local\bank\bulk_action_base {
      * @return string The localized string for the bulk action title.
      */
     public function get_bulk_action_title(): string {
-        xdebug_break();
         return get_string('searchaction', 'qbank_bulksearch');
     }
 

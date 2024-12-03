@@ -1,4 +1,6 @@
 <?php
+
+use qbank_bulksearch\output\form\bulk_search_form;
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,13 +25,18 @@
  */
 
 require('../../../config.php');
+require_once($CFG->dirroot . '/question/bank/bulksearch/classes/output/form/bulk_search_form.php');
 
 require_login();
 
 $url = new moodle_url('/question/bank/bulksearch/search.php', []);
+
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
+xdebug_break();
+$mform = new bulk_search_form();
 
 $PAGE->set_heading($SITE->fullname);
 echo $OUTPUT->header();
+$mform->display();
 echo $OUTPUT->footer();

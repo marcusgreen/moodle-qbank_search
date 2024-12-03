@@ -27,3 +27,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Search';
 $string['searchaction'] = 'Search action';
+$string['searchterm'] = 'Search term';

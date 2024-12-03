@@ -32,7 +32,6 @@ class plugin_feature extends \core_question\local\bank\plugin_features_base {
      * @return array An array of bulk actions.
      */
     public function get_bulk_actions(): array {
-        xdebug_break();
         return [
             new bulk_search_action(),
         ];

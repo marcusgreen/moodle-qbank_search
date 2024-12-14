@@ -38,7 +38,7 @@ class bulk_search_action extends \core_question\local\bank\bulk_action_base {
      * @return string The localized string for the bulk action title.
      */
     public function get_bulk_action_title(): string {
-        return get_string('searchaction', 'qbank_bulksearch');
+        return get_string('searchquestions', 'qbank_bulksearch');
     }
 
     /**
@@ -56,7 +56,7 @@ class bulk_search_action extends \core_question\local\bank\bulk_action_base {
      * @return string The key for the bulk action.
      */
     public function get_key(): string {
-        return 'search';
+        return 'bulksearch';
     }
     /**
      * Get the title for the bulk action.
@@ -64,7 +64,7 @@ class bulk_search_action extends \core_question\local\bank\bulk_action_base {
      * @return string The localized string for the bulk action title.
      */
     public function get_bulk_search_action_title(): string {
-        return get_string('searchaction', 'qbank_search');
+        return get_string('searchquestions', 'qbank_search');
     }
     public function get_bulk_action_capabilities(): ?array {
         return [

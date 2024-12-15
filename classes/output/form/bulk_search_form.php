@@ -83,10 +83,12 @@ class bulk_search_form extends \moodleform {
         $mform->getElement('courseid')->setValue($data->courseid);
         $mform->getElement('matchids')->setValue($data->matchids);
         $this->questionids = $data->matchids;
-        $templateoutput = $this->get_matching_questions($data->matchids);
-        $mform->getElement('matchedquestiontext')->setValue($templateoutput);
+        if($data->searchterm) {
+            $templateoutput = $this->get_matching_questions($data->matchids, $data->searchterm);
+            $mform->getElement('matchedquestiontext')->setValue($templateoutput);
+        }
     }
-    public function get_matching_questions(string $matchids) {
+    public function get_matching_questions(string $matchids, string $searchterm) {
         global $DB, $OUTPUT;
         if ($matchids == '') {
             return '';
@@ -94,6 +96,13 @@ class bulk_search_form extends \moodleform {
         $ids = explode("'", $matchids);
         $sql = 'SELECT id, name, questiontext FROM {question} WHERE id IN (' . implode(',', $ids) . ')';
         $matchingquestions = $DB->get_records_sql($sql);
+        xdebug_break();
+        foreach ($matchingquestions as $question) {
+            $pattern = '/(' . preg_quote($searchterm, '/') . ')/i';
+            $replacement = '<span class="bg-warning font-weight-bold">$1</span>';
+            $question->questiontext = preg_replace($pattern, $replacement, $question->questiontext);
+            $question->name = preg_replace($pattern, $replacement, $question->name);
+        }
         $data = ['questions' => array_values($matchingquestions)];
 
         $templateoutput =  $OUTPUT->render_from_template('qbank_bulksearch/questions', $data);

@@ -109,6 +109,7 @@ if ($fromform = $form->get_data()) {
        $matches =  \qbank_bulksearch\helper::bulk_search_questions($fromform);
         if(!empty($matches)) {
             $request = data_submitted();
+            $bulksearchparams['searchterm'] = $request->searchterm;
             $bulksearchparams['selectedquestions'] = $request->selectedquestions;
             $matchids = implode(',', array_keys($matches));
             $bulksearchparams['courseid'] = $courseid;
@@ -116,7 +117,9 @@ if ($fromform = $form->get_data()) {
             $bulksearchparams['returnurl'] = optional_param('returnurl', 0, PARAM_LOCALURL);
             $form->set_data($bulksearchparams);
        } else {
-        redirect($returnurl);
+        $msg = 'No matches found';
+        \core\notification::add($msg, \core\notification::SUCCESS);
+
        }
     }
 }

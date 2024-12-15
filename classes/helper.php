@@ -37,7 +37,6 @@ class helper {
                      {$usql} and q.questiontext like ?";
             $params[] =  "%$fromform->searchterm%";
             $questions = $DB->get_records_sql($sql, $params);
-            xdebug_break();
             return $questions;
 
         }

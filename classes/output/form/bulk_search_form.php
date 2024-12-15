@@ -27,7 +27,21 @@ require_once($CFG->dirroot . '/lib/formslib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class bulk_search_form extends \moodleform {
+
     /**
+     * @var  $questionids string
+     *
+     * */
+    public string $questionids;
+
+     /**
+     * @var  $editurl string
+     *
+     * */
+    public string $editurl;
+
+    /**
+     *
      * Definition of the form to manage bulk search.
      *
      * @return void
@@ -36,15 +50,19 @@ class bulk_search_form extends \moodleform {
         $mform = $this->_form;
 
         // Add hidden form fields.
-        $mform->addElement('text', 'selectedquestions');
+        $mform->addElement('hidden', 'selectedquestions');
         $mform->setType('selectedquestions', PARAM_TEXT);
-        $mform->addElement('text', 'returnurl');
+        $mform->addElement('hidden', 'returnurl');
         $mform->setType('returnurl', PARAM_URL);
         $mform->addElement('hidden', 'cmid');
         $mform->setType('cmid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
         $mform->addElement('text', 'searchterm', get_string('searchterm', 'qbank_bulksearch'));
+        $mform->addElement('hidden','matchids','');
+        $mform->setType('matchids', PARAM_TEXT);
+        $mform->addElement('static', 'matchedquestiontext');
+        $mform->setType('matchedquestiontext', PARAM_TEXT);
         $this->add_action_buttons(true, get_string('search'));
     }
     /**
@@ -57,9 +75,29 @@ class bulk_search_form extends \moodleform {
     public function set_data($data) {
         $mform = $this->_form;
         $data = (object) $data;
+        xdebug_break();
         $mform->getElement('selectedquestions')->setValue($data->selectedquestions);
         $mform->getElement('returnurl')->setValue($data->returnurl);
+
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);
+        $mform->getElement('matchids')->setValue($data->matchids);
+        $this->questionids = $data->matchids;
+        $templateoutput = $this->get_matching_questions($data->matchids);
+        $mform->getElement('matchedquestiontext')->setValue($templateoutput);
+    }
+    public function get_matching_questions(string $matchids) {
+        global $DB, $OUTPUT;
+        if ($matchids == '') {
+            return '';
+        }
+        $ids = explode("'", $matchids);
+        $sql = 'SELECT id, name, questiontext FROM {question} WHERE id IN (' . implode(',', $ids) . ')';
+        $matchingquestions = $DB->get_records_sql($sql);
+        $data = ['questions' => array_values($matchingquestions)];
+
+        $templateoutput =  $OUTPUT->render_from_template('qbank_bulksearch/questions', $data);
+        return $templateoutput;
+
     }
 }

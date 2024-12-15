@@ -108,11 +108,13 @@ if ($fromform = $form->get_data()) {
     if (isset($fromform->submitbutton)) {
        $matches =  \qbank_bulksearch\helper::bulk_search_questions($fromform);
         if(!empty($matches)) {
+            $request = data_submitted();
+            $bulksearchparams['selectedquestions'] = $request->selectedquestions;
             $matchids = implode(',', array_keys($matches));
+            $bulksearchparams['courseid'] = $courseid;
             $bulksearchparams['matchids'] = $matchids;
-           // $mform->set_data($bulksearchparams);
-       // $searchparams['matches'] = $matches;
-        //$form->set_data(($bulksearchparams));
+            $bulksearchparams['returnurl'] = optional_param('returnurl', 0, PARAM_LOCALURL);
+            $form->set_data($bulksearchparams);
        } else {
         redirect($returnurl);
        }

@@ -75,7 +75,6 @@ class bulk_search_form extends \moodleform {
     public function set_data($data) {
         $mform = $this->_form;
         $data = (object) $data;
-        xdebug_break();
         $mform->getElement('selectedquestions')->setValue($data->selectedquestions);
         $mform->getElement('returnurl')->setValue($data->returnurl);
 

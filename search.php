@@ -26,7 +26,6 @@ use qbank_bulksearch\helper;
 require('../../../config.php');
 require_once($CFG->dirroot . '/question/bank/bulksearch/classes/output/form/bulk_search_form.php');
 require_once($CFG->dirroot . '/question/bank/bulksearch/classes/helper.php');
-//require_once($CFG->dirroot . '/question/editlib.php');
 
 $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
 $cmid = optional_param('cmid', 0, PARAM_INT);
@@ -109,12 +108,17 @@ if ($fromform = $form->get_data()) {
        $matches =  \qbank_bulksearch\helper::bulk_search_questions($fromform);
         if(!empty($matches)) {
             $request = data_submitted();
+            xdebug_break();
             $bulksearchparams['searchterm'] = $request->searchterm;
             $bulksearchparams['selectedquestions'] = $request->selectedquestions;
             $matchids = implode(',', array_keys($matches));
             $bulksearchparams['courseid'] = $courseid;
             $bulksearchparams['matchids'] = $matchids;
             $bulksearchparams['returnurl'] = optional_param('returnurl', 0, PARAM_LOCALURL);
+            $editurl = "$CFG->wwwroot/question/bank/editquestion/question.php?returnurl=/question/edit.php?courseid=$courseid";
+            $editurl .="&deleteall=1&courseid=$courseid";
+            $editurl .="&id=".$matchids;
+            $bulksearchparams['editurl'] = $editurl;
             $form->set_data($bulksearchparams);
        } else {
         $msg = 'No matches found';

@@ -62,6 +62,8 @@ class bulk_search_form extends \moodleform {
         $mform->addElement('hidden','matchids','');
         $mform->setType('matchids', PARAM_TEXT);
         $mform->addElement('static', 'matchedquestiontext');
+        $mform->addElement('static', 'editurl');
+
         $mform->setType('matchedquestiontext', PARAM_TEXT);
         $this->add_action_buttons(true, get_string('search'));
     }
@@ -85,6 +87,7 @@ class bulk_search_form extends \moodleform {
         if($data->searchterm) {
             $templateoutput = $this->get_matching_questions($data->matchids, $data->searchterm);
             $mform->getElement('matchedquestiontext')->setValue($templateoutput);
+            $mform->getElement('editurl')->setValue($data->editurl);
         }
     }
     public function get_matching_questions(string $matchids, string $searchterm) {

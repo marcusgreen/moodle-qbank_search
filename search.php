@@ -108,7 +108,6 @@ if ($fromform = $form->get_data()) {
        $matches =  \qbank_bulksearch\helper::bulk_search_questions($fromform);
         if(!empty($matches)) {
             $request = data_submitted();
-            xdebug_break();
             $bulksearchparams['searchterm'] = $request->searchterm;
             $bulksearchparams['selectedquestions'] = $request->selectedquestions;
             $matchids = implode(',', array_keys($matches));
